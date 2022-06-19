@@ -10,12 +10,18 @@ import {
   Payment,
   Register,
 } from './screens';
-import {extendTheme, NativeBaseProvider} from 'native-base';
+import {
+  extendTheme,
+  KeyboardAvoidingView,
+  NativeBaseProvider,
+} from 'native-base';
 import {COLORS} from './constants';
 import {Navigator} from './components/navigation/Navigation';
 // import {LaundryNavigator} from './components/navigation/LaundryNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import OrdersMade from './screens/laundry/OrdersMade';
+import store from './services/redux/Store';
+import {Provider} from 'react-redux';
 
 const Stack = createStackNavigator();
 
@@ -68,21 +74,28 @@ const App = () => {
   return (
     <NativeBaseProvider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-          initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Main" component={Navigator} />
-          <Stack.Screen name="Laundry" component={OrdersMade} />
-          <Stack.Screen name="OrderStatus" component={OrderStatus} />
-          {/* <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Provider store={store}>
+          <KeyboardAvoidingView
+            flex={1}
+            // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          >
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}
+              initialRouteName="Login">
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="Main" component={Navigator} />
+              <Stack.Screen name="Laundry" component={OrdersMade} />
+              <Stack.Screen name="OrderStatus" component={OrderStatus} />
+              {/* <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="Order" component={Order} />
           <Stack.Screen name="Bucket" component={Bucket} />*/}
-          <Stack.Screen name="Payment" component={Payment} />
-        </Stack.Navigator>
+              <Stack.Screen name="Payment" component={Payment} />
+            </Stack.Navigator>
+          </KeyboardAvoidingView>
+        </Provider>
       </NavigationContainer>
     </NativeBaseProvider>
   );

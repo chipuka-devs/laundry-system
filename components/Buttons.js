@@ -1,6 +1,6 @@
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import {Button, Icon} from 'native-base';
+import {Button, HStack, Icon, Spinner, Text} from 'native-base';
 
 export const CategoryButtonOutlined = ({title, handlePress}) => (
   <Button
@@ -60,5 +60,41 @@ export const CategoryButtonFilled = ({title, handlePress}) => (
     }}
     onPress={handlePress}>
     {title}
+  </Button>
+);
+
+export const LoadingButton = ({text}) => (
+  <Button
+    bg={'primary'}
+    opacity={'60'}
+    borderRadius={'full'}
+    mt={4}
+    width={'full'}
+
+    // onPress={handleContinue}
+  >
+    <HStack space={2}>
+      <Spinner color={'gray.200'} />
+      <Text color={'gray.200'} fontWeight={700} fontSize={'md'}>
+        Loading . . .
+      </Text>
+    </HStack>
+  </Button>
+);
+
+export const SubmitButton = ({text, handlePress}) => (
+  <Button
+    bg={'primary'}
+    borderRadius={'full'}
+    mt={4}
+    width={'full'}
+    onPress={handlePress}>
+    <Text
+      textTransform={'uppercase'}
+      color={'white'}
+      fontWeight={600}
+      fontSize={'md'}>
+      {text}
+    </Text>
   </Button>
 );

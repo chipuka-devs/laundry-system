@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Box,
   Text,
@@ -11,12 +11,34 @@ import {
   Button,
   ScrollView,
   HStack,
+  useToast,
 } from 'native-base';
 import {CustomInput} from './Login';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const Register = () => {
   const navigation = useNavigation();
+  const toast = useToast();
+  const {loading, isError, error, isSuccess} = useSelector(state => state.auth);
+
+  useEffect(() => {
+    const handleDispatch = () => {
+      if (isError === true) {
+        toast.show({
+          render: () => {
+            return <Error message={error} />;
+          },
+        });
+      }
+    };
+
+    handleDispatch();
+
+    return () => {
+      reset();
+    };
+  }, [loading, isError, error, isSuccess]);
 
   return (
     <Box safeArea bg={'primary'} height={'full'}>

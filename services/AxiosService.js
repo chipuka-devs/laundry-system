@@ -1,5 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import AsyncStorageService from './AsyncStorageService';
 import {BASE_URL} from './globals';
 
 const AxiosUtility = axios.create({
@@ -11,7 +11,7 @@ const AxiosUtility = axios.create({
 });
 
 export const setAuthToken = async instance => {
-  const {token} = await JSON.parse(await AsyncStorageService.getData('user'));
+  const {token} = await JSON.parse(await AsyncStorage?.getItem('user'));
 
   if (token) {
     instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;

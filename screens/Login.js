@@ -10,20 +10,59 @@ import {
   FormControl,
   Button,
   ScrollView,
+  useToast,
 } from 'native-base';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import UseLoader from '../components/Loader';
 import {TITLE} from '../constants';
+import {useDispatch, useSelector} from 'react-redux';
+import {Error, Success} from '../components/Toaster';
+import {loginUser, reset} from '../services/redux/reducers/AuthSlice';
+import {LoadingButton, SubmitButton} from '../components/Buttons';
 
 const Login = () => {
   const navigation = useNavigation();
   const NEXT_SCREEN = 'Laundry';
   // const [showLoader] = Use/Loader();
+  const toast = useToast();
+  const dispatch = useDispatch();
+
+  const [state, setState] = useState({
+    phone: '',
+    password: '',
+  });
+
+  const {loading, isError, error, isSuccess} = useSelector(state => state.auth);
+
+  const handlePhoneChange = phone => {
+    setState(prev => ({...prev, phone}));
+  };
+
+  const handlePasswordChange = password => {
+    setState(prev => ({...prev, password}));
+  };
+
+  const handleSubmit = () => {
+    dispatch(loginUser({emailOrPhone: state.phone, password: state.password}));
+  };
 
   useEffect(() => {
-    // showLoader();
-    // showLoader();
-  }, []);
+    const handleDispatch = () => {
+      if (isError === true) {
+        toast.show({
+          render: () => {
+            return <Error message={error} />;
+          },
+        });
+      }
+    };
+
+    handleDispatch();
+
+    return () => {
+      reset();
+    };
+  }, [loading, isError, error, isSuccess]);
 
   return (
     // <ScrollView height={'full'}>
@@ -37,14 +76,13 @@ const Login = () => {
             width={'24'}
             mb={6}
           />
-
           <Text
             color={'warmGray.100'}
             fontWeight={600}
             fontSize={'lg'}
             textAlign={'center'}>
             {TITLE}
-          </Text>
+          </Text>{' '}
         </Center>
 
         <VStack
@@ -77,7 +115,12 @@ const Login = () => {
                     Phone number
                   </FormControl.Label>
 
-                  <CustomInput placeholder={'+254...'} type={'text'} />
+                  <CustomInput
+                    value={state?.phone}
+                    handleChange={handlePhoneChange}
+                    placeholder={'+254...'}
+                    type={'text'}
+                  />
                 </Stack>
                 <Stack>
                   <FormControl.Label
@@ -89,21 +132,17 @@ const Login = () => {
                   <CustomInput
                     placeholder={'Enter Password'}
                     type={'password'}
+                    value={state?.password}
+                    handleChange={handlePasswordChange}
                   />
                 </Stack>
 
                 {/* <FormControl.Bu></FormControl.Bu> */}
-                <Button
-                  bg={'primary'}
-                  mt={4}
-                  borderRadius={'full'}
-                  _text={{
-                    fontWeight: 600,
-                    fontSize: 'md',
-                  }}
-                  onPress={() => navigation.navigate(NEXT_SCREEN)}>
-                  LOGIN
-                </Button>
+                {loading ? (
+                  <LoadingButton />
+                ) : (
+                  <SubmitButton text={'Login'} handlePress={handleSubmit} />
+                )}
               </Stack>
             </FormControl>
           </ScrollView>
@@ -133,7 +172,7 @@ const Login = () => {
 
 export default Login;
 
-export const CustomInput = ({placeholder, type}) => (
+export const CustomInput = ({placeholder, type, value, handleChange}) => (
   <Input
     variant="underlined"
     p={2}
@@ -142,5 +181,7 @@ export const CustomInput = ({placeholder, type}) => (
     borderRadius={'sm'}
     opacity={'0.8'}
     type={type}
+    value={value}
+    onChangeText={handleChange}
   />
 );
