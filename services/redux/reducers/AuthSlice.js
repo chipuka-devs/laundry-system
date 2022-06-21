@@ -18,7 +18,7 @@ export const registerUser = createAsyncThunk(
     } catch (e) {
       const message =
         e?.response?.data?.message || e?.error?.message || e.message || e;
-
+      console.log(e);
       return thunkApi.rejectWithValue(message);
     }
   },
@@ -51,6 +51,7 @@ export const authSlice = createSlice({
     setUser: (state, action) => {
       // update state to include new user
       state.user = action.payload?.user;
+      console.log('Redux user:', action.payload);
     },
 
     reset: state => {
@@ -78,24 +79,32 @@ export const authSlice = createSlice({
         state.error = null;
         state.isSuccess = true;
         state.user = action.payload;
+      })
+      // // register
+      .addCase(registerUser.pending(), state => {
+        state.loading = true;
+      })
+      .addCase(registerUser.rejected(), (state, action) => {
+        state.loading = false;
+        state.isError = true;
+        state.error = action.payload;
+        state.user = null;
+      })
+      .addCase(registerUser.fulfilled(), (state, action) => {
+        state.loading = false;
+        state.isError = false;
+        state.error = null;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      // logout
+      .addCase(logout.fulfilled(), state => {
+        state.loading = false;
+        state.isError = false;
+        state.error = null;
+        state.isSuccess = false;
+        state.user = null;
       });
-    // // register
-    // .addCase(registerUser.pending(), state => {
-    //   state.loading = true;
-    // })
-    // .addCase(registerUser.rejected(), (state, action) => {
-    //   state.loading = false;
-    //   state.isError = true;
-    //   state.error = action.payload;
-    //   state.user = null;
-    // })
-    // .addCase(registerUser.fulfilled(), (state, action) => {
-    //   state.loading = false;
-    //   state.isError = false;
-    //   state.error = null;
-    //   state.isSuccess = true;
-    //   state.user = action.payload;
-    // });
   },
 });
 

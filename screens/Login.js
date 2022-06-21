@@ -22,7 +22,7 @@ import {LoadingButton, SubmitButton} from '../components/Buttons';
 
 const Login = () => {
   const navigation = useNavigation();
-  const NEXT_SCREEN = 'Laundry';
+  const NEXT_SCREEN = 'Main';
   // const [showLoader] = Use/Loader();
   const toast = useToast();
   const dispatch = useDispatch();
@@ -32,7 +32,9 @@ const Login = () => {
     password: '',
   });
 
-  const {loading, isError, error, isSuccess} = useSelector(state => state.auth);
+  const {loading, isError, error, isSuccess, user} = useSelector(
+    state => state.auth,
+  );
 
   const handlePhoneChange = phone => {
     setState(prev => ({...prev, phone}));
@@ -55,6 +57,10 @@ const Login = () => {
           },
         });
       }
+
+      if (isSuccess) {
+        console.log('LOGIN Successful!');
+      }
     };
 
     handleDispatch();
@@ -63,6 +69,12 @@ const Login = () => {
       reset();
     };
   }, [loading, isError, error, isSuccess]);
+
+  useEffect(() => {
+    if (user?._id) {
+      navigation.navigate(NEXT_SCREEN);
+    }
+  }, [user]);
 
   return (
     // <ScrollView height={'full'}>
@@ -172,7 +184,13 @@ const Login = () => {
 
 export default Login;
 
-export const CustomInput = ({placeholder, type, value, handleChange}) => (
+export const CustomInput = ({
+  placeholder,
+  type,
+  value,
+  handleChange,
+  ...rest
+}) => (
   <Input
     variant="underlined"
     p={2}
@@ -180,8 +198,11 @@ export const CustomInput = ({placeholder, type, value, handleChange}) => (
     bg={'white'}
     borderRadius={'sm'}
     opacity={'0.8'}
+    size={'md'}
     type={type}
     value={value}
     onChangeText={handleChange}
+    {...rest}
+    // _text={{fontSize: 'lg'}}
   />
 );

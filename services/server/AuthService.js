@@ -15,9 +15,10 @@ const register = async credentials => {
     role,
   });
 
-  console.log(response);
+  // console.log(response);
+  await AsyncStorage.setItem('user', JSON.stringify(response?.data));
 
-  return response;
+  return response?.data;
 };
 
 // login user
@@ -31,12 +32,12 @@ const login = async credentials => {
 
   await AsyncStorage.setItem('user', JSON.stringify(response?.data));
 
-  console.log(response);
+  return response?.data;
 };
 
 // logout
 const logout = async () => {
-  await AsyncStorage.setItem('user', null);
+  await AsyncStorage.removeItem('user');
 };
 
 const AuthServices = {login, register, logout};

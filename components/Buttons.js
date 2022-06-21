@@ -47,16 +47,20 @@ export const DangerRoundedButtonFilled = ({title}) => (
   </Button>
 );
 
-export const CategoryButtonFilled = ({title, handlePress}) => (
+export const CategoryButtonFilled = ({
+  title,
+  handlePress,
+  isCurrent = false,
+}) => (
   <Button
     borderRadius={'lg'}
     borderColor={'primary'}
     borderWidth={1.5}
-    bg="primary"
+    bg={isCurrent ? 'primary' : 'gray.100'}
     h={10}
     py="2"
     _text={{
-      color: 'white',
+      color: isCurrent ? 'white' : 'primary',
     }}
     onPress={handlePress}>
     {title}
