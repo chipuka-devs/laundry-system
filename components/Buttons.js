@@ -1,6 +1,7 @@
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import {Button, HStack, Icon, Spinner, Text} from 'native-base';
+import {TouchableOpacity} from 'react-native';
 
 export const CategoryButtonOutlined = ({title, handlePress}) => (
   <Button
@@ -16,21 +17,26 @@ export const CategoryButtonOutlined = ({title, handlePress}) => (
     {title}
   </Button>
 );
-export const RoundedButtonFilled = ({title}) => (
-  <Button
-    borderRadius={'full'}
-    borderColor={'primary'}
-    borderWidth={1.5}
-    bg="primaryDark"
-    py="1"
-    h={10}
-    w={10}
-    _text={{
-      color: 'white',
-      fontSize: 'xl',
-    }}>
-    {title}
-  </Button>
+export const RoundedButtonFilled = ({title, handlePress}) => (
+  <TouchableOpacity
+    style={{
+      borderRadius: 50,
+      backgroundColor: '#1B1464',
+      width: 38,
+      height: 38,
+      elevation: 4,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+    // borderRadius={'full'}
+    // bg="primaryDark"
+
+    onPress={handlePress}>
+    <Text color={'white'} fontSize={'2xl'} mt="0.5">
+      {title}
+    </Text>
+  </TouchableOpacity>
 );
 
 export const DangerRoundedButtonFilled = ({title}) => (

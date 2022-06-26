@@ -8,12 +8,12 @@ import {
   Input,
   Stack,
   FormControl,
-  Button,
+  Spinner,
   ScrollView,
   useToast,
 } from 'native-base';
 import React, {useCallback, useEffect, useState} from 'react';
-import UseLoader from '../components/Loader';
+// import UseLoader from '../components/Loader';
 import {TITLE} from '../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import {Error, Success} from '../components/Toaster';
@@ -27,6 +27,7 @@ const Login = () => {
   const toast = useToast();
   const dispatch = useDispatch();
 
+  const [loding, setLoding] = useState(true);
   const [state, setState] = useState({
     phone: '',
     password: '',
@@ -47,6 +48,15 @@ const Login = () => {
   const handleSubmit = () => {
     dispatch(loginUser({emailOrPhone: state.phone, password: state.password}));
   };
+
+  useEffect(() => {
+    if (user?._id) {
+      navigation.navigate(NEXT_SCREEN);
+      setLoding(false);
+    } else {
+      setLoding(false);
+    }
+  }, [user]);
 
   useEffect(() => {
     const handleDispatch = () => {
@@ -70,11 +80,16 @@ const Login = () => {
     };
   }, [loading, isError, error, isSuccess]);
 
-  useEffect(() => {
-    if (user?._id) {
-      navigation.navigate(NEXT_SCREEN);
-    }
-  }, [user]);
+  if (loding) {
+    return (
+      <Center flex={1}>
+        <Text color="primary" fontWeight="semibold">
+          Loading . . .
+        </Text>
+        <Spinner size={'lg'} color="primary" />
+      </Center>
+    );
+  }
 
   return (
     // <ScrollView height={'full'}>

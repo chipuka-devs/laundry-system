@@ -8,62 +8,20 @@ import {
   Payment,
   Register,
 } from './screens';
-import {
-  extendTheme,
-  KeyboardAvoidingView,
-  NativeBaseProvider,
-} from 'native-base';
-import {COLORS} from './constants';
+import {KeyboardAvoidingView, Text, Center, Spinner} from 'native-base';
 import {Navigator} from './components/navigation/Navigation';
 // import {LaundryNavigator} from './components/navigation/LaundryNavigation';
 import OrdersMade from './screens/laundry/OrdersMade';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setUser} from './services/redux/reducers/AuthSlice';
+import {useState} from 'react';
 
 const Stack = createStackNavigator();
 
 const Main = () => {
-  const colorTheme = {
-    primary: COLORS.primary,
-    primaryDark: '#1B1464',
-    primary_light: '#51A6D9',
-    secondary: COLORS.secondary,
-  };
+  const [loading, setLoading] = useState(true);
 
-  const theme = extendTheme({
-    colors: colorTheme,
-    fontConfig: {
-      Poppins: {
-        900: {
-          normal: 'Poppins-Black',
-        },
-        800: {
-          normal: 'Poppins-ExtraBold',
-        },
-        700: {
-          normal: 'Poppins-Bold',
-        },
-        600: {
-          normal: 'Poppins-SemiBold',
-        },
-        500: {
-          normal: 'Poppins-Medium',
-        },
-        400: {
-          normal: 'Poppins-Regular',
-        },
-        300: {
-          normal: 'Poppins-light',
-        },
-      },
-    },
-    fonts: {
-      heading: 'Poppins',
-      body: 'Poppins',
-      mono: 'Poppins',
-    },
-  });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -72,36 +30,48 @@ const Main = () => {
         const user = JSON.parse(r);
         if (user?._id) {
           dispatch(setUser({user: user}));
+          setLoading(false);
+        } else {
+          setLoading(false);
         }
       })
       .catch(err => console.log('Async Load Error', err));
   }, []);
 
+  if (loading) {
+    return (
+      <Center flex={1}>
+        <Text color="primary" fontWeight="semibold">
+          Loading . . .
+        </Text>
+        <Spinner size={'lg'} color="primary" />
+      </Center>
+    );
+  }
+
   return (
-    <NativeBaseProvider theme={theme}>
-      <NavigationContainer>
-        <KeyboardAvoidingView
-          flex={1}
-          // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}
-            initialRouteName="Login">
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="Main" component={Navigator} />
-            <Stack.Screen name="Laundry" component={OrdersMade} />
-            <Stack.Screen name="OrderStatus" component={OrderStatus} />
-            {/* <Stack.Screen name="Dashboard" component={Dashboard} />
+    <NavigationContainer>
+      <KeyboardAvoidingView
+        flex={1}
+        // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName="Login">
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Main" component={Navigator} />
+          <Stack.Screen name="Laundry" component={OrdersMade} />
+          <Stack.Screen name="OrderStatus" component={OrderStatus} />
+          {/* <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="Order" component={Order} />
           <Stack.Screen name="Bucket" component={Bucket} />*/}
-            <Stack.Screen name="Payment" component={Payment} />
-          </Stack.Navigator>
-        </KeyboardAvoidingView>
-      </NavigationContainer>
-    </NativeBaseProvider>
+          <Stack.Screen name="Payment" component={Payment} />
+        </Stack.Navigator>
+      </KeyboardAvoidingView>
+    </NavigationContainer>
   );
 };
 

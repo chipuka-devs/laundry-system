@@ -3,7 +3,7 @@ import {ScrollView, Box, VStack} from 'native-base';
 import React from 'react';
 import {CategoryButtonFilled} from '../../components/Buttons';
 import Header from '../../components/Header';
-import {BucketItem} from '../../components/OrderItem';
+import {BucketItem} from '../../components/order/OrderItem';
 
 const Bucket = () => {
   const navigation = useNavigation();
@@ -11,7 +11,7 @@ const Bucket = () => {
   return (
     <Box safeArea>
       {/* Header */}
-      <Header handleBack={() => navigation.goBack()} title={'Bucket'} options />
+      <Header handleBack={() => navigation.goBack()} title={'Bucket'} />
 
       <ScrollView>
         {/* list */}

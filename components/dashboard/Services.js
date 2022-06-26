@@ -21,29 +21,29 @@ const Services = () => {
       <VStack mt={1} space={3}>
         <HStack justifyContent={'space-around'} w="full">
           <ServiceCard
-            source={require('../assets/icons/wash.png')}
+            source={require('../../assets/icons/wash.png')}
             title={'wash'}
           />
           <ServiceCard
-            source={require('../assets/icons/ironing.png')}
+            source={require('../../assets/icons/ironing.png')}
             title={'iron'}
           />
           <ServiceCard
-            source={require('../assets/icons/dry.png')}
+            source={require('../../assets/icons/dry.png')}
             title={'dry wash'}
           />
         </HStack>
         <HStack justifyContent={'space-around'} w="full">
           <ServiceCard
-            source={require('../assets/icons/carpet-cleaner.png')}
+            source={require('../../assets/icons/carpet-cleaner.png')}
             title={'carpet wash'}
           />
           <ServiceCard
-            source={require('../assets/icons/delivery.png')}
+            source={require('../../assets/icons/delivery.png')}
             title={'delivery'}
           />
           <ServiceCard
-            source={require('../assets/icons/fold.png')}
+            source={require('../../assets/icons/fold.png')}
             title={'folding'}
           />
         </HStack>

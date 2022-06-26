@@ -1,9 +1,16 @@
-import {Box, Text, HStack, Button, Icon} from 'native-base';
+import {Box, Text, HStack, Button, Icon, Center} from 'native-base';
 import React from 'react';
+import {TouchableOpacity} from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Header = ({handleBack, title, options = false}) => {
+const Header = ({
+  handleBack,
+  title,
+  options = false,
+  numberInCart = 0,
+  handleBadgePress,
+}) => {
   return (
     <HStack
       bg={'white'}
@@ -21,15 +28,33 @@ const Header = ({handleBack, title, options = false}) => {
       </Text>
       {/* options button(not compulsory) */}
 
-      <Button>
+      <TouchableOpacity onPress={handleBadgePress}>
         {options && (
-          <Icon
-            color={'primary'}
-            size={5}
-            as={<MaterialCommunityIcons name="dots-vertical" />}
-          />
+          <>
+            <Center
+              position={'absolute'}
+              top={-8}
+              right={-8}
+              bg="primary"
+              w={4}
+              h={4}
+              zIndex="3"
+              borderRadius={'full'}
+              _text={{
+                fontSize: 'xs',
+                color: 'white',
+                fontWeight: 'medium',
+              }}>
+              {numberInCart}
+            </Center>
+            <Icon
+              color={'primary'}
+              size={5}
+              as={<MaterialCommunityIcons name="cart-outline" />}
+            />
+          </>
         )}
-      </Button>
+      </TouchableOpacity>
     </HStack>
   );
 };

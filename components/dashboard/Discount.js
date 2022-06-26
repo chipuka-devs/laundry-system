@@ -40,7 +40,7 @@ const Discount = () => {
         w={20}
         alt="washing machine"
         borderRadius={'full'}
-        source={require('../assets/images/wash_machine_2.jpg')}
+        source={require('../../assets/images/wash_machine_2.jpg')}
       />
     </HStack>
   );

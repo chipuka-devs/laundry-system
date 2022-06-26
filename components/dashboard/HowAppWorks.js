@@ -26,7 +26,7 @@ const HowAppWorks = () => {
           <Image
             height={12}
             width={12}
-            source={require('../assets/icons/cargo.png')}
+            source={require('../../assets/icons/cargo.png')}
             alt="order"
           />
           <Text color="white" mt={1} fontSize="xs">
@@ -38,7 +38,7 @@ const HowAppWorks = () => {
           <Image
             height={12}
             width={12}
-            source={require('../assets/icons/self-collect.png')}
+            source={require('../../assets/icons/self-collect.png')}
             alt="collection"
           />
           <Text color="white" mt={1} fontSize="xs">
@@ -50,7 +50,7 @@ const HowAppWorks = () => {
           <Image
             height={12}
             width={12}
-            source={require('../assets/icons/wash.png')}
+            source={require('../../assets/icons/wash.png')}
             alt="washing"
           />
           <Text color="white" mt={1} fontSize="xs">
@@ -62,7 +62,7 @@ const HowAppWorks = () => {
           <Image
             height={12}
             width={12}
-            source={require('../assets/icons/delivery2.png')}
+            source={require('../../assets/icons/delivery2.png')}
             alt="delivery"
           />
           <Text color="white" mt={1} fontSize="xs">

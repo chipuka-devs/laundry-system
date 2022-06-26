@@ -3,7 +3,7 @@ import {HStack, Image, Center, Icon, Text, VStack, Tooltip} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {logout, setUser} from '../services/redux/reducers/AuthSlice';
+import {logout, setUser} from '../../services/redux/reducers/AuthSlice';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

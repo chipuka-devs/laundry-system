@@ -12,22 +12,26 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Box, Button, Icon, Stack, Text} from 'native-base';
+import {Box, Center, Icon, Stack, Text} from 'native-base';
 import React from 'react';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 export const Navigator = () => {
-  const ICON_SIZE = 22;
+  const {bucket} = useSelector(state => state.bucket);
+
+  const ICON_SIZE = 6;
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 52,
+          height: 58,
           borderRadius: 10,
-          // position: 'absolute',
+          // position: 'absolute'
+          paddingHorizontal: 6,
         },
       }}>
       <Tab.Screen
@@ -92,8 +96,8 @@ export const Navigator = () => {
                   bg={focused ? 'primary' : 'blueGray.200'}
                   justifyContent={'center'}
                   alignItems={'center'}
-                  h={10}
-                  w={10}
+                  h={12}
+                  w={12}
                   borderWidth={1.5}
                   borderColor={focused ? 'white' : 'primary'}
                   borderRadius="full">
@@ -119,6 +123,22 @@ export const Navigator = () => {
 
             return (
               <Stack justifyContent={'center'} alignItems={'center'}>
+                <Center
+                  position={'absolute'}
+                  top={-4}
+                  right={-4}
+                  bg="primary"
+                  w={4}
+                  h={4}
+                  zIndex="3"
+                  borderRadius={'full'}
+                  _text={{
+                    fontSize: 'xs',
+                    color: 'white',
+                    fontWeight: 'medium',
+                  }}>
+                  {bucket?.length}
+                </Center>
                 <Icon
                   as={<MaterialCommunityIcons name={iconName} />}
                   name={iconName}

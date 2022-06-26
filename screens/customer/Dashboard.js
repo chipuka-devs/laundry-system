@@ -1,22 +1,35 @@
 import {Text, VStack, ScrollView} from 'native-base';
 import React, {useEffect} from 'react';
-import Discount from '../../components/Discount';
-import Header from '../../components/DashboardHeader';
-import HowAppWorks from '../../components/HowAppWorks';
-import Services from '../../components/Services';
+import Discount from '../../components/dashboard/Discount';
+import Header from '../../components/dashboard/DashboardHeader';
+import HowAppWorks from '../../components/dashboard/HowAppWorks';
+import Services from '../../components/dashboard/Services';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 // import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchOrders} from '../../services/redux/reducers/OrderSlice';
+import {setBucket} from '../../services/redux/reducers/BucketSlice';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const {bucket} = useSelector(state => state.bucket);
 
   useEffect(() => {
-    const getOrders = () => {
+    const getOrders = async () => {
       dispatch(fetchOrders());
     };
 
+    const getStore = async () => {
+      const cart = await AsyncStorage.getItem('bucket');
+
+      dispatch(setBucket(JSON.parse(cart) || []));
+
+      // console.log('bucekt', JSON.parse(cart));
+    };
+
     getOrders();
+    getStore();
   }, []);
 
   const {user} = useSelector(state => state?.auth);

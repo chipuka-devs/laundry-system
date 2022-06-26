@@ -26,8 +26,8 @@ export const fetchOrders = createAsyncThunk(
   },
 );
 
-export const authSlice = createSlice({
-  name: 'auth',
+export const OrderSlice = createSlice({
+  name: 'order',
   initialState,
   reducers: {
     setOrder: (state, action) => {
@@ -65,6 +65,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const {setUser, reset} = authSlice.actions;
+export const {setUser, reset} = OrderSlice.actions;
 
-export default authSlice.reducer;
+export default OrderSlice.reducer;
