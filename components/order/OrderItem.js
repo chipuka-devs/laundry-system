@@ -100,6 +100,7 @@ export const BucketItem = ({
   price,
   handleAdd,
   handleMinus,
+  handleDelete,
   numberOfItemsInCart = 0,
 }) => {
   return (
@@ -158,7 +159,9 @@ export const BucketItem = ({
         </TouchableOpacity>
       </HStack>
       {/* add to cart button */}
-      <DangerRoundedButtonFilled title={'x'} />
+      {/* <TouchableOpacity onPress={handleDelete}> */}
+      <DangerRoundedButtonFilled onPress={handleDelete} title={'x'} />
+      {/* </TouchableOpa/city> */}
     </HStack>
   );
 };

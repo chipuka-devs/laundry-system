@@ -11,21 +11,31 @@ import React from 'react';
 
 const HowAppWorks = () => {
   return (
-    <VStack bg={'amber.400'} p={4} borderRadius={'xl'}>
-      <Text
+    <VStack
+      bg={'amber.400'}
+      py={2}
+      px={4}
+      borderRadius={'xl'}
+      position={'absolute'}
+      mx={'4'}
+      top={'117px'}
+      left={'0'}
+      shadow={'2'}
+      zIndex={'4'}
+      right={'0'}>
+      {/* <Text
         textAlign={'center'}
         fontSize={'md'}
         fontWeight="medium"
         color="white">
         How Fua-app Works.
-      </Text>
-
+      </Text> */}
       {/* <ScrollView horizontal> */}
       <HStack mt={2} justifyContent={'space-between'}>
         <Center>
           <Image
-            height={12}
-            width={12}
+            height={10}
+            width={10}
             source={require('../../assets/icons/cargo.png')}
             alt="order"
           />
@@ -36,8 +46,8 @@ const HowAppWorks = () => {
 
         <Center>
           <Image
-            height={12}
-            width={12}
+            height={10}
+            width={10}
             source={require('../../assets/icons/self-collect.png')}
             alt="collection"
           />
@@ -48,8 +58,8 @@ const HowAppWorks = () => {
 
         <Center>
           <Image
-            height={12}
-            width={12}
+            height={10}
+            width={10}
             source={require('../../assets/icons/wash.png')}
             alt="washing"
           />
@@ -60,8 +70,8 @@ const HowAppWorks = () => {
 
         <Center>
           <Image
-            height={12}
-            width={12}
+            height={10}
+            width={10}
             source={require('../../assets/icons/delivery2.png')}
             alt="delivery"
           />

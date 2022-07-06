@@ -19,6 +19,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Error, Success} from '../components/Toaster';
 import {loginUser, reset} from '../services/redux/reducers/AuthSlice';
 import {LoadingButton, SubmitButton} from '../components/Buttons';
+import {fetchOrders} from '../services/redux/reducers/OrderSlice';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -32,6 +33,7 @@ const Login = () => {
     phone: '',
     password: '',
   });
+  // const dispatch  = useDispatch()
 
   const {loading, isError, error, isSuccess, user} = useSelector(
     state => state.auth,
@@ -51,6 +53,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user?._id) {
+      // dispatch(fetchOrders());
       navigation.navigate(NEXT_SCREEN);
       setLoding(false);
     } else {

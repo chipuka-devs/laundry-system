@@ -9,9 +9,10 @@ import {
 } from '../../screens';
 import {COLORS} from '../../constants';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Box, Center, Icon, Stack, Text} from 'native-base';
 import React from 'react';
 import {useSelector} from 'react-redux';
@@ -31,11 +32,11 @@ export const Navigator = () => {
           height: 58,
           borderRadius: 10,
           // position: 'absolute'
-          paddingHorizontal: 6,
+          paddingHorizontal: 3,
         },
       }}>
       <Tab.Screen
-        name="Dashboard"
+        name="Home"
         component={Dashboard}
         options={{
           tabBarIcon: ({focused}) => {
@@ -44,12 +45,34 @@ export const Navigator = () => {
             return (
               <Stack justifyContent={'center'} alignItems={'center'}>
                 <Icon
-                  as={<IonIcon name={iconName} />}
+                  as={<Ionicons name={iconName} />}
                   name={iconName}
                   size={ICON_SIZE}
                   color={COLORS.primary}
                 />
-                <Text fontSize={'2xs'}>Home</Text>
+                <Text fontSize={'11px'}>Home</Text>
+              </Stack>
+            );
+          },
+        }}
+      />
+
+      <Tab.Screen
+        name="Order"
+        component={Order}
+        options={{
+          tabBarIcon: ({focused}) => {
+            const iconName = focused ? 'washing-machine' : 'dishwasher';
+
+            return (
+              <Stack justifyContent={'center'} alignItems={'center'}>
+                <Icon
+                  as={<MaterialCommunityIcons name={iconName} />}
+                  name={iconName}
+                  size={ICON_SIZE}
+                  color={COLORS.primary}
+                />
+                <Text fontSize={'11px'}>Wash</Text>
               </Stack>
             );
           },
@@ -71,14 +94,14 @@ export const Navigator = () => {
                   size={ICON_SIZE}
                   color={COLORS.primary}
                 />
-                <Text fontSize={'2xs'}>Your Orders</Text>
+                <Text fontSize={'11px'}>Your Orders</Text>
               </Stack>
             );
           },
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Order"
         component={Order}
         options={{
@@ -112,7 +135,7 @@ export const Navigator = () => {
             );
           },
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="Bucket"
@@ -133,7 +156,7 @@ export const Navigator = () => {
                   zIndex="3"
                   borderRadius={'full'}
                   _text={{
-                    fontSize: 'xs',
+                    fontSize: '11px',
                     color: 'white',
                     fontWeight: 'medium',
                   }}>
@@ -145,7 +168,7 @@ export const Navigator = () => {
                   size={ICON_SIZE}
                   color={COLORS.primary}
                 />
-                <Text fontSize={'2xs'}>Bucket</Text>
+                <Text fontSize={'11px'}>Bucket</Text>
               </Stack>
             );
           },
@@ -167,7 +190,7 @@ export const Navigator = () => {
                   size={ICON_SIZE}
                   color={COLORS.primary}
                 />
-                <Text fontSize={'2xs'}>Notifications</Text>
+                <Text fontSize={'11px'}>Notifications</Text>
               </Stack>
             );
           },

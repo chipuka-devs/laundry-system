@@ -12,10 +12,11 @@ import {KeyboardAvoidingView, Text, Center, Spinner} from 'native-base';
 import {Navigator} from './components/navigation/Navigation';
 // import {LaundryNavigator} from './components/navigation/LaundryNavigation';
 import OrdersMade from './screens/laundry/OrdersMade';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setUser} from './services/redux/reducers/AuthSlice';
 import {useState} from 'react';
+import {setBucket} from './services/redux/reducers/BucketSlice';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ const Main = () => {
   const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
+  const {user} = useSelector(state => state.auth);
 
   useEffect(() => {
     AsyncStorage.getItem('user')
@@ -37,6 +39,16 @@ const Main = () => {
       })
       .catch(err => console.log('Async Load Error', err));
   }, []);
+
+  useEffect(() => {
+    if (user?._id) {
+      AsyncStorage.getItem('bucket')
+        .then(r => {
+          dispatch(setBucket(JSON.parse(r)));
+        })
+        .catch(err => console.log('Async Load Error', err));
+    }
+  }, [user?._id]);
 
   if (loading) {
     return (

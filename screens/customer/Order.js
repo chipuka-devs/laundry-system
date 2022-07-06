@@ -1,4 +1,12 @@
-import {Box, ScrollView, HStack, VStack, Spinner, Heading} from 'native-base';
+import {
+  Box,
+  ScrollView,
+  HStack,
+  VStack,
+  Spinner,
+  Heading,
+  useToast,
+} from 'native-base';
 import React, {useEffect} from 'react';
 import {CategoryButtonFilled} from '../../components/Buttons';
 import Header from '../../components/Header';
@@ -11,24 +19,31 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   setBucket,
-  addToBucketStorage,
-  removeFromBucket,
+  // addToBucketStorage,
+  // removeFromBucket,
 } from '../../services/redux/reducers/BucketSlice';
 
 const Order = () => {
   const navigation = useNavigation();
-  const {loading, isError, error, isSuccess, orders} = useSelector(
-    state => state.laundry,
-  );
+  const {
+    loading: l,
+    isError,
+    error,
+    isSuccess,
+    orders,
+  } = useSelector(st => st.laundry);
+  const toast = useToast();
 
-  const {bucket} = useSelector(state => state.bucket);
+  const {bucket} = useSelector(st => st.bucket);
   const dispatch = useDispatch();
 
   // state
   const [orderParam, setOrderParam] = useState('');
   const [state, setState] = useState(orders);
+  const [loading, setLoading] = useState(l);
   // const [bucket, setBucket] = useState(b || []);
 
+  // console.log(bucket);
   // functions
   const handleAddToCart = async itemParam => {
     var itemsInBucket = [...bucket];
@@ -42,6 +57,7 @@ const Order = () => {
         ...itemsInBucket.filter(item => item?._id === itemParam._id)[0],
       };
       currentItem.amount += 1;
+      currentItem.totalAmount = currentItem.amount * currentItem.price;
       const newBucketArray = [currentItem, ...otherItemsArray];
 
       await AsyncStorage.setItem('bucket', JSON.stringify(newBucketArray));
@@ -52,7 +68,11 @@ const Order = () => {
       // newItem.amount += 1;
       // console.log(newArr);
     } else {
-      itemsInBucket.push({...itemParam, amount: 1});
+      itemsInBucket.push({
+        ...itemParam,
+        amount: 1,
+        totalAmount: itemParam.price,
+      });
       await AsyncStorage.setItem('bucket', JSON.stringify(itemsInBucket));
     }
     dispatch(setBucket(itemsInBucket));
@@ -69,6 +89,8 @@ const Order = () => {
         ...itemsInBucket.filter(item => item?._id === itemParam._id)[0],
       };
       currentItem.amount -= 1;
+      currentItem.totalAmount = currentItem.amount * currentItem.price;
+
       const newBucketArray = [currentItem, ...otherItemsArray];
 
       await AsyncStorage.setItem('bucket', JSON.stringify(newBucketArray));
@@ -92,15 +114,21 @@ const Order = () => {
   };
 
   useEffect(() => {
+    // setLoading(true);
     const getOrders = () => {
-      dispatch(fetchOrders(`category=${orderParam}`));
+      dispatch(fetchOrders());
+      // setLoading(false);
     };
-    // console.log(orders);
 
-    if (!bucket || bucket.length === 0) {
-      getOrders();
-    }
+    // if (orders.length === 0) {
+    getOrders();
+    // }
   }, []);
+
+  useEffect(() => {
+    setState(orders);
+    // }
+  }, [orders]);
 
   useEffect(() => {
     const filterOrders = () => {
@@ -166,7 +194,7 @@ const Order = () => {
       </ScrollView>
       <ScrollView>
         {/* list */}
-        {loading ? (
+        {loading || state?.length === 0 ? (
           <HStack
             space={2}
             mt={'50%'}

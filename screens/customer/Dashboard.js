@@ -1,4 +1,4 @@
-import {Text, VStack, ScrollView} from 'native-base';
+import {Text, VStack, ScrollView, Box} from 'native-base';
 import React, {useEffect} from 'react';
 import Discount from '../../components/dashboard/Discount';
 import Header from '../../components/dashboard/DashboardHeader';
@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchOrders} from '../../services/redux/reducers/OrderSlice';
 import {setBucket} from '../../services/redux/reducers/BucketSlice';
+import ActiveOrders from '../../components/dashboard/ActiveOrders';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -34,28 +35,32 @@ const Dashboard = () => {
 
   const {user} = useSelector(state => state?.auth);
   return (
-    <ScrollView>
+    <>
       {/* Header */}
       <Header>
-        <Text fontSize={'xs'} color={'gray.500'}>
+        <Text fontSize={'xs'} color={'gray.100'}>
           Hey {user?.name}
         </Text>
-        <Text fontWeight={600} color={'primaryDark'} fontSize={'lg'}>
+        <Text fontWeight={600} color={'white'} fontSize={'lg'}>
           Welcome Back!
         </Text>
       </Header>
+      <HowAppWorks />
+      <ScrollView>
+        <VStack bg={'gray.200'} height={'full'} safeArea p={3} space={6}>
+          {/* Services offered */}
+          {/* How app works */}
 
-      <VStack bg={'gray.200'} height={'full'} safeArea p={3} space={6}>
-        {/* Services offered */}
-        <Services />
+          <Box mt={'12'}>
+            <Services />
 
-        {/* Discount card */}
-        <Discount />
-
-        {/* How app works */}
-        <HowAppWorks />
-      </VStack>
-    </ScrollView>
+            {/* Discount card */}
+            {/* <Active Orders /> */}
+            <ActiveOrders />
+          </Box>
+        </VStack>
+      </ScrollView>
+    </>
   );
 };
 

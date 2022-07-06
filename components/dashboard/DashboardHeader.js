@@ -20,7 +20,7 @@ const Header = ({children}) => {
       .catch(err => console.log('Logout error:', err));
   };
   return (
-    <VStack space={1.5} bg="gray.200" py={2} px={3}>
+    <VStack space={1.5} py={2} pb={10} px={3} bg={'primary'}>
       <HStack justifyContent={'space-between'} alignItems={'center'}>
         <Image
           alt={'image'}

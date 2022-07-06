@@ -1,14 +1,15 @@
 import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
-import {Button, HStack, Icon, Spinner, Text} from 'native-base';
+import {Box, Button, Center, HStack, Icon, Spinner, Text} from 'native-base';
 import {TouchableOpacity} from 'react-native';
 
-export const CategoryButtonOutlined = ({title, handlePress}) => (
+export const CategoryButtonOutlined = ({title, handlePress, ...rest}) => (
   <Button
     borderRadius={'lg'}
     borderColor={'primary'}
     borderWidth={1.5}
     h={10}
+    {...rest}
     py="2"
     _text={{
       color: 'primary',
@@ -39,24 +40,27 @@ export const RoundedButtonFilled = ({title, handlePress}) => (
   </TouchableOpacity>
 );
 
-export const DangerRoundedButtonFilled = ({title}) => (
-  <Button
-    borderRadius={'full'}
-    bg="danger.600"
-    py="1"
-    h={10}
-    w={10}
-    _text={{
-      fontSize: 'xl',
-    }}>
-    <Icon color={'white'} size={5} as={<Feather name="x" />} />
-  </Button>
+export const DangerRoundedButtonFilled = ({title, onPress}) => (
+  <TouchableOpacity onPress={onPress}>
+    <Center
+      borderRadius={'full'}
+      bg="danger.600"
+      py="1"
+      h={8}
+      w={8}
+      _text={{
+        fontSize: 'xl',
+      }}>
+      <Icon color={'white'} size={5} as={<Feather name="x" />} />
+    </Center>
+  </TouchableOpacity>
 );
 
 export const CategoryButtonFilled = ({
   title,
   handlePress,
   isCurrent = false,
+  ...rest
 }) => (
   <Button
     borderRadius={'lg'}
@@ -68,7 +72,8 @@ export const CategoryButtonFilled = ({
     _text={{
       color: isCurrent ? 'white' : 'primary',
     }}
-    onPress={handlePress}>
+    onPress={handlePress}
+    {...rest}>
     {title}
   </Button>
 );
