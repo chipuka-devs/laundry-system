@@ -33,6 +33,7 @@ export const Navigator = () => {
           borderRadius: 10,
           // position: 'absolute'
           paddingHorizontal: 3,
+          // backgroundColor: 'white',
         },
       }}>
       <Tab.Screen
@@ -48,9 +49,13 @@ export const Navigator = () => {
                   as={<Ionicons name={iconName} />}
                   name={iconName}
                   size={ICON_SIZE}
-                  color={COLORS.primary}
+                  color={focused ? COLORS.primary : 'blueGray.400'}
                 />
-                <Text fontSize={'11px'}>Home</Text>
+                <Text
+                  color={focused ? COLORS.primary : 'blueGray.400'}
+                  fontSize={'11px'}>
+                  Home
+                </Text>
               </Stack>
             );
           },
@@ -70,9 +75,13 @@ export const Navigator = () => {
                   as={<MaterialCommunityIcons name={iconName} />}
                   name={iconName}
                   size={ICON_SIZE}
-                  color={COLORS.primary}
+                  color={focused ? COLORS.primary : 'blueGray.400'}
                 />
-                <Text fontSize={'11px'}>Wash</Text>
+                <Text
+                  color={focused ? COLORS.primary : 'blueGray.400'}
+                  fontSize={'11px'}>
+                  Wash
+                </Text>
               </Stack>
             );
           },
@@ -92,9 +101,13 @@ export const Navigator = () => {
                   as={<MaterialCommunityIcons name={iconName} />}
                   name={iconName}
                   size={ICON_SIZE}
-                  color={COLORS.primary}
+                  color={focused ? COLORS.primary : 'blueGray.400'}
                 />
-                <Text fontSize={'11px'}>Your Orders</Text>
+                <Text
+                  color={focused ? COLORS.primary : 'blueGray.400'}
+                  fontSize={'11px'}>
+                  Your Orders
+                </Text>
               </Stack>
             );
           },
@@ -166,9 +179,13 @@ export const Navigator = () => {
                   as={<MaterialCommunityIcons name={iconName} />}
                   name={iconName}
                   size={ICON_SIZE}
-                  color={COLORS.primary}
+                  color={focused ? COLORS.primary : 'blueGray.400'}
                 />
-                <Text fontSize={'11px'}>Bucket</Text>
+                <Text
+                  color={focused ? COLORS.primary : 'blueGray.400'}
+                  fontSize={'11px'}>
+                  Bucket
+                </Text>
               </Stack>
             );
           },
@@ -188,9 +205,13 @@ export const Navigator = () => {
                   as={<FontAwesome name={iconName} />}
                   name={iconName}
                   size={ICON_SIZE}
-                  color={COLORS.primary}
+                  color={focused ? COLORS.primary : 'blueGray.400'}
                 />
-                <Text fontSize={'11px'}>Notifications</Text>
+                <Text
+                  color={focused ? COLORS.primary : 'blueGray.400'}
+                  fontSize={'11px'}>
+                  Notifications
+                </Text>
               </Stack>
             );
           },

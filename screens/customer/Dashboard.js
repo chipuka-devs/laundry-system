@@ -35,7 +35,7 @@ const Dashboard = () => {
 
   const {user} = useSelector(state => state?.auth);
   return (
-    <>
+    <Box>
       {/* Header */}
       <Header>
         <Text fontSize={'xs'} color={'gray.100'}>
@@ -45,22 +45,24 @@ const Dashboard = () => {
           Welcome Back!
         </Text>
       </Header>
+
       <HowAppWorks />
-      <ScrollView>
-        <VStack bg={'gray.200'} height={'full'} safeArea p={3} space={6}>
-          {/* Services offered */}
-          {/* How app works */}
 
-          <Box mt={'12'}>
-            <Services />
+      {/* <ScrollView> */}
+      <VStack bg={'muted.100'} height={'full'} safeArea p={3} space={6}>
+        {/* Services offered */}
+        {/* How app works */}
 
-            {/* Discount card */}
-            {/* <Active Orders /> */}
-            <ActiveOrders />
-          </Box>
-        </VStack>
-      </ScrollView>
-    </>
+        <Box mt={'12'}>
+          <Services />
+
+          {/* Discount card */}
+          {/* <Active Orders /> */}
+          <ActiveOrders />
+        </Box>
+      </VStack>
+      {/* </ScrollView> */}
+    </Box>
   );
 };
 

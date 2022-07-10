@@ -76,17 +76,18 @@ const ServiceCard = ({source, title}) => {
   const navigation = useNavigation();
 
   return (
-    <Pressable onPress={() => navigation.navigate('Order')}>
-      <VStack
-        alignItems={'center'}
-        justifyContent={'center'}
-        space={2}
-        bg={'muted.100'}
-        borderRadius={'lg'}
-        zIndex={'5'}
-        shadow={'2'}
-        w={'76px'}
-        h={'76px'}>
+    <Pressable
+      bg={'muted.100'}
+      _pressed={{backgroundColor: 'gray.200'}}
+      onPress={() => navigation.navigate('Order')}
+      zIndex={'5'}
+      shadow={'2'}
+      w={'76px'}
+      h={'76px'}
+      space={2}
+      p={'1'}
+      borderRadius={'lg'}>
+      <VStack alignItems={'center'} justifyContent={'center'}>
         <Image height={'10'} width={'10'} source={source} alt="image" />
 
         <Box

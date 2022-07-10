@@ -3,22 +3,39 @@ import React from 'react';
 import Header from '../../components/Header';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import {
-  CategoryButtonFilled,
-  CategoryButtonOutlined,
-} from '../../components/Buttons';
+import {CategoryButtonFilled} from '../../components/Buttons';
+import ConfirmPaymentModal from '../../components/payment/ConfirmPaymentModal';
+import {useState} from 'react';
 
 const Payment = ({
   route: {
-    params: {total},
+    params: {checkedOutItem},
   },
 }) => {
   const navigation = useNavigation();
   const {user} = useSelector(state => state.auth);
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  console.log(checkedOutItem);
+
+  const handleClose = () => {
+    setShowConfirmModal(!showConfirmModal);
+  };
+
+  const handleConfirmModal = () => {
+    setShowConfirmModal(true);
+  };
   return (
     <Box safeArea>
+      <ConfirmPaymentModal
+        cartItems={checkedOutItem}
+        isOpen={showConfirmModal}
+        onClose={handleClose}
+      />
+      {/* {JSON.stringify(checkedOutItem)} */}
       {/* Header */}
-      <Header handleBack={() => navigation.goBack()} title={'Paymet'} />
+      <Header handleBack={() => navigation.goBack()} title={'Payment'} />
 
       <Box h={'full'} bg={'white'}>
         <Box bg={'white'} mx={3} borderRadius={'lg'} shadow={'2'}>
@@ -29,15 +46,21 @@ const Payment = ({
             </Box>
             <HStack justifyContent={'space-between'}>
               <Text color={'gray.500'}>Order id:</Text>
-              <Text color={'gray.500'}>{`#FUA${Math.round(
-                Math.random() * 100000,
-              )}`}</Text>
+              <Text
+                fontSize={'xs'}
+                color={'gray.500'}>{`#FUA${checkedOutItem._id}`}</Text>
+            </HStack>
+
+            <HStack justifyContent={'space-between'}>
+              <Text color={'gray.500'}>Number of Items:</Text>
+              <Text
+                color={'gray.500'}>{`${checkedOutItem?.cart?.length}`}</Text>
             </HStack>
 
             <HStack justifyContent={'space-between'}>
               <Text color={'gray.500'}>TOTAL</Text>
               <Text fontWeight={500} fontSize="md">
-                {total} kshs
+                {checkedOutItem.total_price} kshs
               </Text>
             </HStack>
 
@@ -46,15 +69,11 @@ const Payment = ({
               borderRadius={'full'}
               mx={'auto'}
               isCurrent
-              handlePress={() =>
-                navigation.navigate('Payment', {
-                  total: TOTAL_PRICE,
-                })
-              }
-              title={'Pay now'}
+              handlePress={handleConfirmModal}
+              title={'Confirm Order'}
             />
 
-            <CategoryButtonFilled
+            {/* <CategoryButtonFilled
               width={'3/4'}
               borderRadius={'full'}
               mx={'auto'}
@@ -66,12 +85,12 @@ const Payment = ({
                 })
               }
               title={'Track Order'}
-            />
+            /> */}
           </VStack>
         </Box>
       </Box>
 
-      <Box position={'absolute'} bottom={'65px'} w={'full'}>
+      {/* <Box position={'absolute'} bottom={'65px'} w={'full'}>
         <CategoryButtonOutlined
           mx={'auto'}
           borderRadius={'full'}
@@ -84,7 +103,7 @@ const Payment = ({
           }
           title={'Track Order'}
         />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

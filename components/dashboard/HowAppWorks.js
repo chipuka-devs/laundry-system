@@ -1,12 +1,4 @@
-import {
-  Box,
-  Text,
-  VStack,
-  HStack,
-  Center,
-  Image,
-  ScrollView,
-} from 'native-base';
+import {Text, VStack, HStack, Center, Image} from 'native-base';
 import React from 'react';
 
 const HowAppWorks = () => {
@@ -18,19 +10,11 @@ const HowAppWorks = () => {
       borderRadius={'xl'}
       position={'absolute'}
       mx={'4'}
-      top={'117px'}
+      top={'124px'}
       left={'0'}
       shadow={'2'}
       zIndex={'4'}
       right={'0'}>
-      {/* <Text
-        textAlign={'center'}
-        fontSize={'md'}
-        fontWeight="medium"
-        color="white">
-        How Fua-app Works.
-      </Text> */}
-      {/* <ScrollView horizontal> */}
       <HStack mt={2} justifyContent={'space-between'}>
         <Center>
           <Image

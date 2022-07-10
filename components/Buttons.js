@@ -8,12 +8,12 @@ export const CategoryButtonOutlined = ({title, handlePress, ...rest}) => (
     borderRadius={'lg'}
     borderColor={'primary'}
     borderWidth={1.5}
-    h={10}
-    {...rest}
-    py="2"
     _text={{
       color: 'primary',
     }}
+    h={10}
+    {...rest}
+    py="2"
     onPress={handlePress}>
     {title}
   </Button>
@@ -78,13 +78,14 @@ export const CategoryButtonFilled = ({
   </Button>
 );
 
-export const LoadingButton = ({text}) => (
+export const LoadingButton = ({text, ...rest}) => (
   <Button
     bg={'primary'}
     opacity={'60'}
     borderRadius={'full'}
-    mt={4}
     width={'full'}
+    // mt={4}
+    {...rest}
 
     // onPress={handleContinue}
   >

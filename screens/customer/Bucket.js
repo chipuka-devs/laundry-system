@@ -1,16 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
-import {ScrollView, Box, VStack, HStack, Text} from 'native-base';
-import React from 'react';
+import {ScrollView, Box, VStack, HStack, Text, useToast} from 'native-base';
+import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {CategoryButtonFilled} from '../../components/Buttons';
+import {CategoryButtonFilled, LoadingButton} from '../../components/Buttons';
 import Header from '../../components/Header';
 import {BucketItem} from '../../components/order/OrderItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setBucket} from '../../services/redux/reducers/BucketSlice';
+import OrderServices from '../../services/server/OrderServices';
 
 const Bucket = () => {
   const navigation = useNavigation();
   const {bucket} = useSelector(state => state.bucket);
+  // const toast = useToast();
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -92,6 +95,49 @@ const Bucket = () => {
     }
   };
 
+  const handleCheckoutBucket = async () => {
+    setLoading(true);
+    try {
+      const bucketToSave = [];
+      // map each laundry item in bucket and extract: id,amount and totalprice
+      bucket.forEach(({_id, totalAmount, amount}) => {
+        const newItem = {
+          product: _id,
+          amount: totalAmount,
+          number_of_products: amount,
+        };
+
+        bucketToSave.push(newItem);
+      });
+      // console.log(bucketToSave);
+
+      // send bucket items to backend
+      const response = await OrderServices.saveBucket({
+        cart: bucketToSave,
+        total: TOTAL_PRICE,
+        status: 'pending',
+      });
+      // navigate to confirmation
+      console.log(response);
+
+      navigation.navigate('Payment', {
+        checkedOutItem: response,
+      });
+      setLoading(false);
+    } catch (err) {
+      // toast.show({
+      //   render: () => {
+      //     return <Toast.error message={err?.message} />;
+      //   },
+      //   placement: 'top',
+      //   duration: 5000,
+      // }),
+
+      console.log(err);
+      setLoading(false);
+    }
+  };
+
   const handleDelete = async itemParam => {
     var itemsInBucket = [...bucket];
 
@@ -143,18 +189,18 @@ const Bucket = () => {
               </Text>
             </HStack>
 
-            <CategoryButtonFilled
-              width={'3/4'}
-              borderRadius={'full'}
-              mx={'auto'}
-              isCurrent
-              handlePress={() =>
-                navigation.navigate('Payment', {
-                  total: TOTAL_PRICE,
-                })
-              }
-              title={'checkout'}
-            />
+            {loading ? (
+              <LoadingButton w={'4/5'} mx={'auto'} />
+            ) : (
+              <CategoryButtonFilled
+                width={'3/4'}
+                borderRadius={'full'}
+                mx={'auto'}
+                isCurrent
+                handlePress={handleCheckoutBucket}
+                title={'checkout'}
+              />
+            )}
           </Box>
         )}
       </ScrollView>
@@ -163,3 +209,7 @@ const Bucket = () => {
 };
 
 export default Bucket;
+
+// () =>
+
+// console.log({...bucket, Total: TOTAL_PRICE})

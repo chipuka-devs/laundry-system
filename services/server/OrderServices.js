@@ -1,4 +1,4 @@
-import axios from '../AxiosService';
+import axios, {setAuthToken} from '../AxiosService';
 
 // registration request
 const fetchOrders = async params => {
@@ -13,6 +13,22 @@ const fetchSingleOrder = async id => {
   return response.data;
 };
 
-const OrderServices = {fetchOrders, fetchSingleOrder};
+const saveBucket = async order => {
+  await setAuthToken(axios);
+
+  const {data} = await axios.post('/order', {...order});
+
+  return data;
+};
+
+const updateOrder = async (id, d) => {
+  await setAuthToken(axios);
+
+  const {data} = await axios.patch(`/order/${id}`, d);
+
+  return data;
+};
+
+const OrderServices = {fetchOrders, fetchSingleOrder, saveBucket, updateOrder};
 
 export default OrderServices;

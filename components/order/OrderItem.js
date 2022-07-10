@@ -27,11 +27,11 @@ const OrderItem = ({
   return (
     <HStack
       px={3}
-      py={4}
-      bg={'#d8dfed'}
+      py={3}
+      bg={'blueGray.100'}
       alignItems={'center'}
       borderRadius={'md'}
-      shadow="2"
+      shadow="1"
       space={5}>
       {/* image */}
       <Image

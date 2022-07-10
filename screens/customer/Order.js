@@ -157,7 +157,7 @@ const Order = () => {
   }, [loading, isError, error, isSuccess, orders]);
 
   return (
-    <Box safeArea>
+    <Box safeArea bg={'gray.100'}>
       {/* Header */}
       <Header
         handleBack={() => navigation.goBack()}
@@ -211,7 +211,7 @@ const Order = () => {
             </Heading>
           </HStack>
         ) : (
-          <VStack space={4} p={3} mb={5}>
+          <VStack space={2} p={3} mb={5}>
             {state?.map(order => (
               <OrderItem
                 key={order?._id}
