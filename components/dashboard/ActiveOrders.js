@@ -13,7 +13,7 @@ import {CategoryButtonFilled} from '../Buttons';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const ActiveOrders = () => {
+const ActiveOrders = ({orders}) => {
   const navigation = useNavigation();
   return (
     <VStack mt={'5'}>
@@ -32,7 +32,7 @@ const ActiveOrders = () => {
               width={'4'}
               height={'4'}
               borderRadius={'full'}>
-              2
+              {orders?.length}
             </Center>
           </Box>
         </Box>
@@ -50,9 +50,14 @@ const ActiveOrders = () => {
         />
       </HStack>
       <VStack space={'1.5'}>
-        <OrderCard />
-        <OrderCard />
-        <OrderCard />
+        {orders.slice(0, 4).map(item => (
+          <OrderCard
+            id={item?._id}
+            status={item?.status}
+            date={item?.updatedAt}
+            key={item?._id}
+          />
+        ))}
       </VStack>
     </VStack>
   );
@@ -60,12 +65,12 @@ const ActiveOrders = () => {
 
 export default ActiveOrders;
 
-const OrderCard = () => (
+const OrderCard = ({id, date, status}) => (
   <Pressable
     // bg={'muted.100'}
     _pressed={{backgroundColor: 'gray.200'}}
     onPress={() => console.log('Pressed')}>
-    <HStack p={'1.5'} space={2} alignItems={'center'}>
+    <HStack p={'1.5'} space={1} alignItems={'center'}>
       <Center p={'2'} bg={'white'} borderRadius={'full'}>
         <Icon
           color={'primary'}
@@ -75,16 +80,25 @@ const OrderCard = () => (
       </Center>
 
       <Box flexGrow={'1'}>
-        <Text color={'primaryDark'}>Order No: #33241234</Text>
+        <Text color={'primaryDark'}>Order ID:</Text>
+        <Text fontSize={'2xs'} color={'primaryDark'}>
+          #FUA{id}
+        </Text>
 
         <Text fontSize={'xs'} color={'blueGray.400'}>
-          Order Confirmed
+          Status: {status}
         </Text>
       </Box>
 
-      <Text fontSize={'11'} color={'blueGray.400'}>
-        19 Jul, 12:30am
-      </Text>
+      <Box
+        maxW={'32'}
+        _text={{
+          fontSize: 'xs',
+          color: 'blueGray.400',
+        }}>
+        {/* {19 Jul, 12:30am} */}
+        {new Date(date).toUTCString()}
+      </Box>
     </HStack>
   </Pressable>
 );

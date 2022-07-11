@@ -16,7 +16,7 @@ export const fetchOrders = createAsyncThunk(
   'auth/fetch_orders',
   async (param, thunkApi) => {
     try {
-      return await OrderServices.fetchOrders(param);
+      return await OrderServices.fetchOrderItems(param);
     } catch (e) {
       const message =
         e?.response?.data?.message || e?.error?.message || e.message || e;

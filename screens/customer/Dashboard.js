@@ -1,6 +1,5 @@
 import {Text, VStack, ScrollView, Box} from 'native-base';
 import React, {useEffect} from 'react';
-import Discount from '../../components/dashboard/Discount';
 import Header from '../../components/dashboard/DashboardHeader';
 import HowAppWorks from '../../components/dashboard/HowAppWorks';
 import Services from '../../components/dashboard/Services';
@@ -11,10 +10,20 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchOrders} from '../../services/redux/reducers/OrderSlice';
 import {setBucket} from '../../services/redux/reducers/BucketSlice';
 import ActiveOrders from '../../components/dashboard/ActiveOrders';
+import OrderServices from '../../services/server/OrderServices';
+import {useState} from 'react';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const {bucket} = useSelector(state => state.bucket);
+
+  const [activeOrders, setActiveOrders] = useState([]);
+
+  // fetch active orders
+  const fetchActiveOrders = () => {
+    OrderServices.fetchActiveOrders()
+      .then(response => setActiveOrders(response))
+      .catch(err => console.log(err));
+  };
 
   useEffect(() => {
     const getOrders = async () => {
@@ -31,6 +40,7 @@ const Dashboard = () => {
 
     getOrders();
     getStore();
+    fetchActiveOrders();
   }, []);
 
   const {user} = useSelector(state => state?.auth);
@@ -58,7 +68,7 @@ const Dashboard = () => {
 
           {/* Discount card */}
           {/* <Active Orders /> */}
-          <ActiveOrders />
+          <ActiveOrders orders={activeOrders} />
         </Box>
       </VStack>
       {/* </ScrollView> */}

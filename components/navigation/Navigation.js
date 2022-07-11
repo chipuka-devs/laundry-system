@@ -44,7 +44,10 @@ export const Navigator = () => {
             const iconName = focused ? 'home' : 'home-outline';
 
             return (
-              <Stack justifyContent={'center'} alignItems={'center'}>
+              <Stack
+                zIndex={'4'}
+                justifyContent={'center'}
+                alignItems={'center'}>
                 <Icon
                   as={<Ionicons name={iconName} />}
                   name={iconName}
@@ -70,7 +73,10 @@ export const Navigator = () => {
             const iconName = focused ? 'washing-machine' : 'dishwasher';
 
             return (
-              <Stack justifyContent={'center'} alignItems={'center'}>
+              <Stack
+                zIndex={'4'}
+                justifyContent={'center'}
+                alignItems={'center'}>
                 <Icon
                   as={<MaterialCommunityIcons name={iconName} />}
                   name={iconName}
@@ -96,7 +102,10 @@ export const Navigator = () => {
             const iconName = focused ? 'card-text' : 'card-text-outline';
 
             return (
-              <Stack justifyContent={'center'} alignItems={'center'}>
+              <Stack
+                zIndex={'4'}
+                justifyContent={'center'}
+                alignItems={'center'}>
                 <Icon
                   as={<MaterialCommunityIcons name={iconName} />}
                   name={iconName}
