@@ -16,7 +16,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const ActiveOrders = ({orders}) => {
   const navigation = useNavigation();
   return (
-    <VStack mt={'5'}>
+    <VStack mt={'7'}>
       <HStack alignItems={'center'} mb={'2'}>
         <Box flexGrow={1} flexDirection={'row'}>
           <Box
@@ -45,12 +45,12 @@ const ActiveOrders = ({orders}) => {
           h={'8'}
           _text={{fontSize: 'xs'}}
           isCurrent
-          handlePress={() => navigation.navigate('Order')}
+          handlePress={() => navigation.navigate('OrderHistory')}
           title={'See All'}
         />
       </HStack>
       <VStack space={'1.5'}>
-        {orders.slice(0, 4).map(item => (
+        {orders.slice(0, 1).map(item => (
           <OrderCard
             id={item?._id}
             status={item?.status}
@@ -70,7 +70,7 @@ const OrderCard = ({id, date, status}) => (
     // bg={'muted.100'}
     _pressed={{backgroundColor: 'gray.200'}}
     onPress={() => console.log('Pressed')}>
-    <HStack p={'1.5'} space={1} alignItems={'center'}>
+    <HStack p={'0.5'} space={1} alignItems={'center'}>
       <Center p={'2'} bg={'white'} borderRadius={'full'}>
         <Icon
           color={'primary'}

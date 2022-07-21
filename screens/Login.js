@@ -173,27 +173,26 @@ const Login = () => {
                 ) : (
                   <SubmitButton text={'Login'} handlePress={handleSubmit} />
                 )}
+
+                <Box
+                  mb={3}
+                  ml={5}
+                  flexDirection="row"
+                  _text={{
+                    fontSize: 'sm',
+                  }}>
+                  Have no account?&nbsp;
+                  <Text
+                    color={'primary'}
+                    underline
+                    onPress={() => navigation.navigate('Register')}>
+                    Click here to Register
+                  </Text>
+                </Box>
               </Stack>
             </FormControl>
           </ScrollView>
         </VStack>
-        <Box
-          position={'absolute'}
-          bottom={0}
-          mb={3}
-          ml={5}
-          flexDirection="row"
-          _text={{
-            fontSize: 'sm',
-          }}>
-          Have no account?&nbsp;
-          <Text
-            color={'primary'}
-            underline
-            onPress={() => navigation.navigate('Register')}>
-            Click here to Register
-          </Text>
-        </Box>
       </Box>
     </>
     // </ScrollView>

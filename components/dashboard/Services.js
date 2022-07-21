@@ -26,42 +26,20 @@ const Services = () => {
             textTransform={'uppercase'}
             fontWeight={'medium'}
             ml={'2'}
-            mt={1}>
-            Select item
+            textAlign={'center'}>
+            Wash clothes
           </Text>
         </Box>
-
-        <CategoryButtonFilled
-          width={'24'}
-          py={1}
-          borderRadius={'full'}
-          mx={'auto'}
-          h={'8'}
-          _text={{fontSize: 'xs'}}
-          isCurrent
-          handlePress={() => navigation.navigate('Order')}
-          title={'view all'}
-        />
       </HStack>
 
       {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
-      <VStack mt={1} space={3} py={'3'}>
-        <HStack justifyContent={'space-between'} w="full">
+      <VStack>
+        <HStack justifyContent={'center'} w="full">
           <ServiceCard
-            source={require('../../assets/icons/pants.png')}
-            title={'Trouser'}
-          />
-          <ServiceCard
-            source={require('../../assets/icons/trench-coat.png')}
-            title={'Coat'}
-          />
-          <ServiceCard
-            source={require('../../assets/icons/tshirt.png')}
-            title={'TShirt'}
-          />
-          <ServiceCard
-            source={require('../../assets/icons/woman-clothes.png')}
-            title={'Dress'}
+            source={{
+              uri: 'https://cdn4.iconfinder.com/data/icons/hotel-service-blue-set-1-1/100/Untitled-1-04-512.png',
+            }}
+            title={'Wash'}
           />
         </HStack>
       </VStack>
@@ -77,22 +55,23 @@ const ServiceCard = ({source, title}) => {
 
   return (
     <Pressable
-      bg={'muted.100'}
-      _pressed={{backgroundColor: 'gray.200'}}
+      bg={'blueGray.200'}
+      _pressed={{backgroundColor: 'blueGray.300'}}
       onPress={() => navigation.navigate('Order')}
+      mt={'2'}
       zIndex={'5'}
       shadow={'2'}
-      w={'76px'}
-      h={'76px'}
+      w={'170px'}
+      h={'170px'}
       space={2}
       p={'1'}
       borderRadius={'lg'}>
-      <VStack alignItems={'center'} justifyContent={'center'}>
-        <Image height={'10'} width={'10'} source={source} alt="image" />
+      <VStack alignItems={'center'} justifyContent={'center'} h={'full'}>
+        <Image height={'32'} width={'32'} source={source} alt="image" />
 
         <Box
           _text={{
-            fontSize: 'xs',
+            fontSize: 'md',
             color: 'primary',
             fontWeight: 'medium',
           }}>

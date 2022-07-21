@@ -1,12 +1,10 @@
 import axios, {setAuthToken} from '../AxiosService';
 
 // registration request
-const fetchActiveOrders = async () => {
+const fetchActiveOrders = async params => {
   await setAuthToken(axios);
 
-  const response = await axios.get(
-    `/order?type=exclude&search=cancelled&search=complete`,
-  );
+  const response = await axios.get(`/order?${params}`);
 
   return response.data;
 };

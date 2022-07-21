@@ -1,5 +1,6 @@
-import {Text, VStack, HStack, Center, Image} from 'native-base';
+import {Text, VStack, HStack, Icon, Center, Image} from 'native-base';
 import React from 'react';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 const HowAppWorks = () => {
   return (
@@ -15,7 +16,7 @@ const HowAppWorks = () => {
       shadow={'2'}
       zIndex={'4'}
       right={'0'}>
-      <HStack mt={2} justifyContent={'space-between'}>
+      <HStack alignItems={'center'} mt={2} justifyContent={'space-between'}>
         <Center>
           <Image
             height={10}
@@ -27,7 +28,7 @@ const HowAppWorks = () => {
             Make Order
           </Text>
         </Center>
-
+        <Icon color={'white'} as={<IonIcons name={'ios-arrow-forward'} />} />
         <Center>
           <Image
             height={10}
@@ -39,6 +40,7 @@ const HowAppWorks = () => {
             We collect
           </Text>
         </Center>
+        <Icon color={'white'} as={<IonIcons name={'ios-arrow-forward'} />} />
 
         <Center>
           <Image
@@ -51,6 +53,7 @@ const HowAppWorks = () => {
             Cleaning
           </Text>
         </Center>
+        <Icon color={'white'} as={<IonIcons name={'ios-arrow-forward'} />} />
 
         <Center>
           <Image

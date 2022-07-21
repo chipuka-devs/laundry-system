@@ -16,23 +16,49 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
+import {useEffect} from 'react';
+import OrderServices from '../../services/server/OrderServices';
+import {useState} from 'react';
+import Loader from '../../components/LoaderCard';
 
 const History = ({}) => {
   const navigation = useNavigation();
+
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    // fetch all orders
+    const fetchAllOrders = () => {
+      OrderServices.fetchActiveOrders()
+        .then(r => {
+          setOrders(r);
+          console.log(r);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.log(err.message);
+
+          setLoading(false);
+        });
+    };
+
+    fetchAllOrders();
+  }, []);
+
   return (
-    <Box safeArea>
+    <Box>
+      {loading && <Loader />}
       {/* Header */}
       <Header handleBack={() => navigation.goBack()} title={'My Orders'} />
 
       <ScrollView bg="white" py={2} px={3}>
         {/* list */}
-        <VStack space={3}>
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
+        <VStack space={3} mb={'70px'}>
+          {orders?.map(order => (
+            <OrderItem key={order._id} order={order} />
+          ))}
         </VStack>
       </ScrollView>
     </Box>
@@ -41,7 +67,7 @@ const History = ({}) => {
 
 export default History;
 
-const OrderItem = () => {
+const OrderItem = ({order}) => {
   const navigation = useNavigation();
 
   return (
@@ -63,24 +89,26 @@ const OrderItem = () => {
         {/* price and order id */}
         <HStack px={3} justifyContent="space-between">
           <Text fontWeight="medium" color="primary" fontSize={'xs'}>
-            kshs 580
+            kshs {order?.total_price}
           </Text>
 
           <Text color="gray.500" fontSize={'xs'}>
-            Order Id: 345211
+            Order Id: {order?._id}
           </Text>
         </HStack>
 
         {/* date and stage */}
         <HStack px={3} justifyContent="space-between">
-          <Text fontSize={'xs'}>Friday 22 Jun 12:30</Text>
+          <Text color={'blueGray.600'} fontSize={'xs'}>
+            {new Date(order?.updatedAt).toUTCString()}
+          </Text>
 
           <Text color="gray.700" fontSize={'xs'} fontWeight="semibold">
-            Confirmed
+            {order?.status}
           </Text>
         </HStack>
 
-        <OrderStages />
+        <OrderStages order={order} />
 
         <HStack justifyContent="flex-end">
           <Button
@@ -88,7 +116,7 @@ const OrderItem = () => {
             h={8}
             p={0}
             w={'70px'}
-            onPress={() => navigation.navigate('OrderStatus')}>
+            onPress={() => navigation.navigate('OrderStatus', {order})}>
             View
           </Button>
         </HStack>
@@ -97,51 +125,155 @@ const OrderItem = () => {
   );
 };
 
-const OrderStages = () => (
+const OrderStages = ({order}) => (
   <HStack px={1}>
     <Center>
-      <Box mb={1} p={2} bg={'primary'} borderRadius="full">
+      <Box
+        mb={1}
+        p={2}
+        borderWidth={'1'}
+        borderColor={'primary'}
+        zIndex={2}
+        bg={
+          [
+            'confirmed',
+            'picked',
+            'processing',
+            'shipping',
+            'delivered',
+          ].includes(order?.status)
+            ? 'primary'
+            : 'white'
+        }
+        borderRadius="full">
         <Icon
           size={5}
-          color={'white'}
+          color={
+            [
+              'confirmed',
+              'picked',
+              'processing',
+              'shipping',
+              'delivered',
+            ].includes(order?.status)
+              ? 'white'
+              : 'primary'
+          }
           as={<FontAwesome name={'calendar-check-o'} />}
         />
       </Box>
-      <Text fontSize={'2xs'} color={'primary'} fontWeight={'semibold'}>
+      <Text
+        fontSize={'2xs'}
+        color={
+          [
+            'confirmed',
+            'picked',
+            'processing',
+            'shipping',
+            'delivered',
+          ].includes(order?.status)
+            ? 'primary'
+            : 'trueGray.400'
+        }
+        fontWeight={'semibold'}>
         Confirmed
       </Text>
     </Center>
 
-    <Line />
+    <Line
+      checked={[
+        'confirmed',
+        'picked',
+        'processing',
+        'shipping',
+        'delivered',
+      ].includes(order?.status)}
+    />
     <Center>
-      <Box mb={1} p={2} bg={'primary'} borderRadius="full">
+      <Box
+        mb={1}
+        p={2}
+        borderWidth={'1'}
+        borderColor={'primary'}
+        zIndex={2}
+        bg={
+          ['picked', 'processing', 'shipping', 'delivered'].includes(
+            order?.status,
+          )
+            ? 'primary'
+            : 'white'
+        }
+        borderRadius="full">
         <Icon
           size={5}
-          color={'white'}
+          color={
+            ['picked', 'processing', 'shipping', 'delivered'].includes(
+              order?.status,
+            )
+              ? 'white'
+              : 'primary'
+          }
           as={<MaterialCommunityIcons name={'bike-fast'} />}
         />
       </Box>
-      <Text fontSize={'2xs'} color={'primary'} fontWeight={'semibold'}>
+      <Text
+        fontSize={'2xs'}
+        color={
+          ['picked', 'processing', 'shipping', 'delivered'].includes(
+            order?.status,
+          )
+            ? 'primary'
+            : 'trueGray.400'
+        }
+        fontWeight={'semibold'}>
         Picked up
       </Text>
     </Center>
 
-    <Line />
+    <Line
+      checked={['picked', 'processing', 'shipping', 'delivered'].includes(
+        order?.status,
+      )}
+    />
 
     <Center>
-      <Box mb={1} zIndex={2} p={2} bg={'primary'} borderRadius="full">
+      <Box
+        mb={1}
+        zIndex={2}
+        p={2}
+        borderWidth={'1'}
+        borderColor={'primary'}
+        bg={
+          ['processing', 'shipping', 'delivered'].includes(order?.status)
+            ? 'primary'
+            : 'white'
+        }
+        borderRadius="full">
         <Icon
           size={5}
-          color={'white'}
+          color={
+            ['processing', 'shipping', 'delivered'].includes(order?.status)
+              ? 'white'
+              : 'primary'
+          }
           as={<MaterialIcons name={'local-laundry-service'} />}
         />
       </Box>
-      <Text fontSize={'2xs'} color={'primary'} fontWeight={'semibold'}>
+      <Text
+        fontSize={'2xs'}
+        color={
+          ['processing', 'shipping', 'delivered'].includes(order?.status)
+            ? 'primary'
+            : 'trueGray.400'
+        }
+        fontWeight={'semibold'}>
         In Process
       </Text>
     </Center>
 
-    <Line checked={false} />
+    <Line
+      checked={['processing', 'shipping', 'delivered'].includes(order?.status)}
+    />
 
     <Center>
       <Box
@@ -149,36 +281,56 @@ const OrderStages = () => (
         p={2}
         borderWidth={'1'}
         borderColor={'primary'}
-        bg={'white'}
+        bg={
+          ['shipping', 'delivered'].includes(order?.status)
+            ? 'primary'
+            : 'white'
+        }
         zIndex={2}
         borderRadius="full">
         <Icon
           size={5}
-          color={'primary'}
+          color={
+            ['shipping', 'delivered'].includes(order?.status)
+              ? 'white'
+              : 'primary'
+          }
           as={<MaterialCommunityIcons name={'truck-fast'} />}
         />
       </Box>
-      <Text fontSize={'2xs'} color={'primary'} fontWeight={'semibold'}>
+      <Text
+        fontSize={'2xs'}
+        color={
+          ['shipping', 'delivered'].includes(order?.status)
+            ? 'primary'
+            : 'trueGray.400'
+        }
+        fontWeight={'semibold'}>
         Shipping
       </Text>
     </Center>
 
-    <Line checked={false} />
+    <Line checked={['shipping', 'delivered'].includes(order?.status)} />
     <Center>
       <Box
         mb={1}
         p={2}
         borderWidth={'1'}
         borderColor={'primary'}
-        bg={'white'}
+        bg={['delivered'].includes(order?.status) ? 'primary' : 'white'}
         borderRadius="full">
         <Icon
           size={5}
-          color={'primary'}
+          color={['delivered'].includes(order?.status) ? 'white' : 'primary'}
           as={<FontAwesome5 name={'box-tissue'} />}
         />
       </Box>
-      <Text fontSize={'2xs'} color={'gray.500'} fontWeight={'semibold'}>
+      <Text
+        fontSize={'2xs'}
+        color={
+          ['delivered'].includes(order?.status) ? 'primary' : 'trueGray.400'
+        }
+        fontWeight={'semibold'}>
         Delivered
       </Text>
     </Center>

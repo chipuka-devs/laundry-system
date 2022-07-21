@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const getOrders = async () => {
-      dispatch(fetchOrders());
+      dispatch(fetchOrders('type=exclude&search=cancelled&search=complete'));
     };
 
     const getStore = async () => {
@@ -63,7 +63,7 @@ const Dashboard = () => {
         {/* Services offered */}
         {/* How app works */}
 
-        <Box mt={'12'}>
+        <Box mt={'16'}>
           <Services />
 
           {/* Discount card */}
